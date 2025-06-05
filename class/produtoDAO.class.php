@@ -7,8 +7,8 @@
         public function __construct() {
             $this->conexao = new PDO("mysql:host=localhost; dbname=mymelody", "root", "");
         }
-        public function listar() {
-             $sql = $this->conexao->prepare("select * from produto left join categoria on produto.idCat = categoria.idCat");
+        public function listar($temp = "") {
+             $sql = $this->conexao->prepare("select produto.*, categoria.nomeCat  from produto inner join categoria on produto.idCat = categoria.idCat ".$temp);
              $sql->execute();
              return $sql->fetchAll();
         
