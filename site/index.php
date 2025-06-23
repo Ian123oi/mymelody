@@ -1,65 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=x, initial-scale=1.0">
-    <title>Home</title>
+<?php
+session_start();
+if(isset($_GET["carrinho"])) {
+    if(!isset($_SESSION["carrinho"])) {
+    $_SESSION["carrinho"] = []; }
+
+ if (!in_array($_GET["id"], $_SESSION["carrinho"])) {
+    array_push($_SESSION["carrinho"], $_GET["id"]);
+    echo "<h2> adicionado ao carrinho </h2>"; 
+    print_r($_SESSION["carrinho"]);
+ }
+ else {
+    echo "O produto ja ta no carrinho";
+}
+}
+
+if (isset($_GET["oi"])) {
+    session_destroy();
+}
+    include_once "../class/categoria.class.php";
+    include_once "../class/CategoriaDAO.class.php";
+    include_once "../class/produto.class.php";
+    include_once "../class/produtoDAO.class.php";
+    include_once "../class/imagem.class.php";
+    include_once "../class/imagemDAO.class.php";
+
+    $objCategoriaDAO= new categoriaDAO();
+    $categorias = $objCategoriaDAO->listar();
+?>
+<ul>
     <?php
-        include_once "../class/categoria.class.php";
-        include_once "../class/categoriaDAO.class.php";
-        include_once "../class/produtoDAO.class.php";
-        include_once "../class/produto.class.php";
-        include_once "../class/imagemDAO.class.php";
-        include_once "../class/imagem.class.php";
-
-        $objCategoriaDAO = new categoriaDAO();
-        $categorias = $objCategoriaDAO->listar();
-        $objProdutoDAO = new produtoDAO();
-        $objImagemDao = new imagemDAO();
-        
-    
+    foreach($categorias as $linha){
+        echo "<li><a href='listar.php?id=".
+        $linha["idcat"]."'>".$linha["nomeCat"]."</a></li>";
+    }
     ?>
-</head>
-<body>
-    
-    
+    <li> <a href="carrinho.php"> Carrinho de compras </a></li>
+</ul>
+<?php
+$objDAO = new produtoDAO(); 
+$retorno = $objDAO->listar(" ORDER BY id DESC LIMIT 3");
+$objImagemDAO = new imagemDAO();
+foreach($retorno as $linha){
+    ?>
+    <div>
+        <h3><?=$linha["nome"]?></h3>
+        <h4><?=$linha["preco"]?></h4>
+        <h5><?=$linha["nomeCat"]?></h5>
         <?php
-            foreach($categorias as $linha) {
-                echo "<li><a href='listar.php'".$linha["nomeCat"]."</li>".$linha["idcat"].":".$linha["nomeCat"]."</a></li>";
-            }
-                echo "<br> <br>";
-            
-
-           foreach($objProdutoDAO->listar("where oferta>0 limit 2 q") as $linha) {
-        echo ("<div>");echo "<ul>";
-        if ($linha["oferta"] == 0) {
-        $preco = $linha["preco"];
-    } else {
-    echo (" OFERTA LIMITADA!! -> <s> R$". $linha["preco"]."</s> <b> R$".$preco = $linha["oferta"]/100 * $linha["preco"]. "</b> ");
-    }
-        
-        echo "<h3>Nome: ".$linha["nome"]."</h3>";
-        echo " <h4> preco: ".$preco."</h4>";
-        echo  "<h5> descricao: ".$linha["descricao"]."</h5>";
-        
-        $retornoImg = $objImagemDao->retornarUm($linha["id"]); 
-        if ($retornoImg>0) {
-        
-        echo "<img src='../img/". $retornoImg["nomeImagem"]."'/>";
-        echo "<br>";}
-       
-        
-        
-        
-
-        echo "<br> <br>";
-        echo "</ul>";
-echo ("</div>");
-    }
-    
-
+        $retornoImg =  $objImagemDAO->retornarUm($linha["id"]);
+        if($retornoImg>0)
+            echo "<img src='../img/".$retornoImg["nomeImagem"]."'/>";
         ?>
-    </ul>
-
-</body>
-</html>
+        <a href="?id=<?=$linha['id'];?>&carrinho"> Adicionar ao Carrinho  </a>
+        <a href="?oi=oi"> aa </a>
+    </div>
+<?php } ?>
