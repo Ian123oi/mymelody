@@ -15,7 +15,7 @@ if(isset($_GET["carrinho"])) {
 }
 
 if (isset($_GET["oi"])) {
-    session_destroy();
+    unset($_SESSION["carrinho"]);
 }
     include_once "../class/categoria.class.php";
     include_once "../class/CategoriaDAO.class.php";

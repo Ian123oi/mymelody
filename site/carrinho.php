@@ -8,10 +8,12 @@ if(!isset($_SESSION["login"]))
         echo "<h2> Carrinho vazio! Vá as compras! </h2>";
     }
     else {
+        
         ?>
-            <table>
+            <form action="carrinho_ok.php" method="POST">
+            <table border>
                 <thead>
-                    <th> Nome </th>
+                    <th> Nome </th> 
                     <th> Preço </th>
                     <th> Quantidade </th>
                 </thead>
@@ -19,24 +21,31 @@ if(!isset($_SESSION["login"]))
                     <?php
                     include_once("../class/produto.class.php");
                     include_once("../class/produtoDAO.class.php");
-                    $objProduto = new produtoDAO();
+                    $objProdutoDAO = new produtoDAO();
 
                     foreach($_SESSION["carrinho"] as $id) {
-                        $retorno = $objprodutoDAO->retornarUm($id);    
-                    }
+                        $retorno = $objProdutoDAO->retornarUm($id);
+                    
                     ?>
                         <tr>
                             <td>
                                 <?=$retorno["nome"];?>  </td><td>
                                 <?=$retorno["preco"];?> </td><td>
-                                <input type="number" name="" id="">
+                                <input type="number" name="quantidade<?=$id;?>" id="">
                             </td>
                         </tr>
                     <?php
-                        
+                    }     
                     ?>
                 </tbody>
             </table>
+            
+            <label> Forma de pagamento </label> </br>
+            <input type="text" name="pagamento"/> <br>
+            <label> Endereço de entrega: </label> <br>
+            <input type="text" name="endereco"> <br>
+            <button type="submit" name="enviar">Finalizar compra</button>
+            </form>
         <?php
     }
 
