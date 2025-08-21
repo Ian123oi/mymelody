@@ -20,7 +20,7 @@
         $objVP = new venda_has_produto();
         $objProdutoDAO = new produtoDAO();
         $objVPDAO = new venda_has_produtoDAO();
-        $listinha = $objVPDAO->listar("where idVenda = ". $retorno);
+        $listinha = $objVPDAO->listar("where idVenda = ". $retorno  );
         $objVP->set("idVenda", $retorno);
         foreach($_SESSION["carrinho"] as $linha) {
             $objVP->set("idProduto", $linha);

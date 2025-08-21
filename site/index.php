@@ -30,15 +30,24 @@ if (isset($_GET["oi"])) {
 <ul>
     <?php
     foreach($categorias as $linha){
-        echo "<li><a href='listar.php?id=".
+        echo "<li><a href='index.php?idCat=".
         $linha["idcat"]."'>".$linha["nomeCat"]."</a></li>";
     }
     ?>
+    
     <li> <a href="carrinho.php"> Carrinho de compras </a></li>
-</ul>
+</ul> <br> <br>
+    <form action="index.php?nome=".pesquisa>
+    <input type="text" name="pesquisa"> </input>
+    <input type="submit" name="enviar"> </input></form>
 <?php
 $objDAO = new produtoDAO(); 
-$retorno = $objDAO->listar(" ORDER BY id DESC LIMIT 3");
+if (isset($_GET["idCat"])) {
+$retorno = $objDAO->listar(" where produto.idCat= ".$_GET["idCat"]. " ORDER BY id DESC LIMIT 3"  ); }
+else if (isset($_GET["pesquisa"])) {
+    $retorno = $objDAO->listar("where produto.nome LIKE '%".$_GET["pesquisa"]. "%' or produto.descricao like '%".$_GET["pesquisa"]. "%' ORDER BY id DESC LIMIT 3 ");}
+
+else { $retorno = $objDAO->listar("ORDER BY id DESC LIMIT 3");}
 $objImagemDAO = new imagemDAO();
 foreach($retorno as $linha){
     ?>
@@ -46,6 +55,8 @@ foreach($retorno as $linha){
         <h3><?=$linha["nome"]?></h3>
         <h4><?=$linha["preco"]?></h4>
         <h5><?=$linha["nomeCat"]?></h5>
+        <h5><?=$linha["descricao"]?></h5>
+
         <?php
         $retornoImg =  $objImagemDAO->retornarUm($linha["id"]);
         if($retornoImg>0)
