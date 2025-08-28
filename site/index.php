@@ -23,7 +23,7 @@ if (isset($_GET["oi"])) {
     include_once "../class/produtoDAO.class.php";
     include_once "../class/imagem.class.php";
     include_once "../class/imagemDAO.class.php";
-
+    
     $objCategoriaDAO= new categoriaDAO();
     $categorias = $objCategoriaDAO->listar();
 ?>
@@ -36,6 +36,7 @@ if (isset($_GET["oi"])) {
     ?>
     
     <li> <a href="carrinho.php"> Carrinho de compras </a></li>
+    <li> <a href="vendasnf.php"> Vendas não finalizadas </a></li>
 </ul> <br> <br>
     <form action="index.php?nome=".pesquisa>
     <input type="text" name="pesquisa"> </input>

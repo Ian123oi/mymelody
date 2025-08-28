@@ -8,7 +8,7 @@
             $this->conexao = new PDO("mysql:host=localhost; dbname=mymelody", "root", "");
         }
         public function listar($temp = "") {
-             $sql = $this->conexao->prepare("select * from venda_has_produto $temp");
+             $sql = $this->conexao->prepare("select venda_has_produto.*, produto.nome from venda_has_produto inner join produto on venda_has_produto.idProduto = produto.id $temp");
              $sql->execute();
              return $sql->fetchAll();
         

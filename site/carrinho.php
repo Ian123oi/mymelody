@@ -17,7 +17,7 @@ if(!isset($_SESSION["login"]))
                     <th> Preço </th>
                     <th> Quantidade </th>
                 </thead>
-                <tbody>
+                <tbody> 
                     <?php
                     include_once("../class/produto.class.php");
                     include_once("../class/produtoDAO.class.php");

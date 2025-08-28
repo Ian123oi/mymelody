@@ -18,13 +18,14 @@
             $sql->execute();
         }
         public function inserir(venda $obj) {
-            $sql = $this->conexao->prepare("INSERT into venda(idProduto, IdUsuario, data, formapagamento, endereco, valor) values (:nome, :cpf, :email, :senha, :num, :valor)");
+            $sql = $this->conexao->prepare("INSERT into venda(idProduto, IdUsuario, data, formapagamento, endereco, valor, status) values (:nome, :cpf, :email, :senha, :num, :valor, :status)");
             $sql->bindValue(":nome", $obj->get("idProduto"));
             $sql->bindValue(":cpf", $obj->get("idUsuario"));
             $sql->bindValue(":email", $obj->get("data"));
             $sql->bindValue(":senha", $obj->get("formapagamento"));
             $sql->bindValue(":num", $obj->get("endereco"));
             $sql->bindValue(":valor", $obj->get("valor"));
+            $sql->bindValue(":status", $obj->get("status"));
             $sql->execute();
             return $this->conexao->lastInsertId();
     }
