@@ -56,14 +56,14 @@ foreach($retorno as $linha){
         <h3><?=$linha["nome"]?></h3>
         <h4><?=$linha["preco"]?></h4>
         <h5><?=$linha["nomeCat"]?></h5>
-        <h5><?=$linha["descricao"]?></h5>
+        <h5>Descrição: <?=$linha["descricao"]?></h5>
 
         <?php
         $retornoImg =  $objImagemDAO->retornarUm($linha["id"]);
         if($retornoImg>0)
             echo "<img src='../img/".$retornoImg["nomeImagem"]."'/>";
         ?>
-        <a href="?id=<?=$linha['id'];?>&carrinho"> Adicionar ao Carrinho  </a>
-        <a href="?oi=oi"> aa </a>
+        <a href="?id=<?=$linha['id'];?>&carrinho"> Adicionar ao Carrinho  </a>   &nbsp;
+        <a href="?oi=oi"> Remover do carrinho </a>
     </div>
 <?php } ?>

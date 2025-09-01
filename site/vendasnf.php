@@ -11,19 +11,36 @@
     $objVPDAO = new venda_has_produtoDAO();
     $objVP = new venda_has_produto();
     $objDAO = new vendaDAO();
-    $acum = 0;
+   $listavenda = $objDAO->listar("WHERE status = 'Processando'");
+
+$acum = 0;
+
+foreach ($listavenda as $venda) {
+    // Agora você acessa corretamente o idvenda
+    $idVenda = $venda["idvenda"];
     
-    $listinha = $objVPDAO.listar();
-    echo ("Resumo da compra <br> Produtos comprados: <br>"); foreach($listinha as $linha) {
-            echo ("<tr> <td>".$linha["nome"]. "</td> <td>". $linha["preco"] . "</td> <td>". $linha["quantidade"]. "</td> <td>". $linha["preco"] * $linha["quantidade"]. "</td> </tr>");
-            $acum+= $linha["preco"] * $linha["quantidade"];
-        }         echo ("</tbody> </table>");
-   
-        echo (" <br> Preço total: <b>". $acum."</b>");
-        echo ("<br> Endereço: <b>".$_POST["endereco"]. "</b>");
-        echo ("<br> Metodo Pagamento: <b>". $_POST["pagamento"]. "</b>");
-        
-    
+    // Busca os produtos da venda específica
+    $listinha = $objVPDAO->listar("WHERE idVenda = $idVenda");
+
+    echo "Resumo da compra <br> Produtos comprados: <br>";
+    echo "<table><tbody>";
+
+    foreach ($listinha as $linha) {
+        echo "<tr>
+                <td>".$linha["nome"]."</td>
+                <td>".$linha["preco"]."</td>
+                <td>".$linha["quantidade"]."</td>
+                <td>".($linha["preco"] * $linha["quantidade"])."</td>
+              </tr>";
+        $acum += $linha["preco"] * $linha["quantidade"];
+    }
+
+    echo "</tbody></table>";
+    echo "<br> Preço total: <b>$acum</b>";
+    echo "<br> Endereço: <b>".$venda["endereco"]."</b>";
+    echo "<br> Metodo Pagamento: <b>".$venda["formapagamento"]."</b>";
+    echo "<hr>";
+}
     
 ?>
 

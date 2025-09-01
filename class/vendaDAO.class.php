@@ -8,9 +8,9 @@
             $this->conexao = new PDO("mysql:host=localhost; dbname=mymelody", "root", "");
         }
         public function listar() {
-             $sql = $this->conexao->prepare("select * from usuario");
+             $sql = $this->conexao->prepare("select * from venda");
              $sql->execute();
-             return $sql->fetchAll();
+              return $sql->fetchAll(PDO::FETCH_ASSOC);
         
         }
         public function excluir($temp) {
@@ -30,7 +30,7 @@
             return $this->conexao->lastInsertId();
     }
         public function retornarUM($id) {
-            $sql = $this->conexao->prepare(query: "select * from usuario where id='$id'");
+            $sql = $this->conexao->prepare(query: "select * from venda where id='$id'");
             $sql->execute();
             return $sql->fetch();
         }
