@@ -15,6 +15,8 @@ if ($retorno == 2)
 else {
     session_start();
     $_SESSION["id"] = $retorno["id"];
+    $_SESSION["nome"] = $retorno["nome"];
+    $_SESSION["tipo"] = $retorno["tipo"];
     $_SESSION["login"] = true;
     header("Location:index.php?loginOk");
 }

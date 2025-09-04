@@ -11,7 +11,7 @@
     $objVPDAO = new venda_has_produtoDAO();
     $objVP = new venda_has_produto();
     $objDAO = new vendaDAO();
-   $listavenda = $objDAO->listar("WHERE status = 'Processando'");
+   $listavenda = $objDAO->listar("WHERE status = 'Finalizado'");
 
 $acum = 0;
 

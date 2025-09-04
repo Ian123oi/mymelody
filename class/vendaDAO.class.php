@@ -8,9 +8,9 @@
             $this->conexao = new PDO("mysql:host=localhost; dbname=mymelody", "root", "");
         }
         public function listar() {
-             $sql = $this->conexao->prepare("select * from usuario");
+             $sql = $this->conexao->prepare("select * from venda");
              $sql->execute();
-             return $sql->fetchAll();
+              return $sql->fetchAll(PDO::FETCH_ASSOC);
         
         }
         public function excluir($temp) {
@@ -30,21 +30,14 @@
             return $this->conexao->lastInsertId();
     }
         public function retornarUM($id) {
-            $sql = $this->conexao->prepare(query: "select * from usuario where id='$id'");
+            $sql = $this->conexao->prepare(query: "select * from venda where id='$id'");
             $sql->execute();
             return $sql->fetch();
         }
-        public function editar(usuario $usuario) {
-            $sql = $this->conexao->prepare(query: "update usuario set nome = :nome, email = :email, cpf = :cpf, senha = :senha, numero = :numero where id = :id");
-            $sql->bindValue(":id", $usuario->get("id"));
-            $sql->bindValue(":email", $usuario->get("email"));
-            $sql->bindValue(":cpf", $usuario->get("cpf"));
-            $sql->bindValue("senha", $usuario->get("senha"));
-            $sql->bindValue("nome", $usuario->get("nome"));
-            $sql->bindValue("numero", $usuario->get("numero"));
-
+        public function editar($obj, $id) { 
+            $sql = $this->conexao->prepare(query: "update venda set status = '$obj' where idvenda='$id'"  );
             return $sql->execute();
-            
+        
 
         }
 

@@ -4,6 +4,7 @@ if(isset($_GET["carrinho"])) {
     if(!isset($_SESSION["carrinho"])) {
     $_SESSION["carrinho"] = []; }
 
+
  if (!in_array($_GET["id"], $_SESSION["carrinho"])) {
     array_push($_SESSION["carrinho"], $_GET["id"]);
     echo "<h2> adicionado ao carrinho </h2>"; 
@@ -12,11 +13,17 @@ if(isset($_GET["carrinho"])) {
  else {
     echo "O produto ja ta no carrinho";
 }
+} if(!isset($_SESSION["login"])) {
+    header("location:login.php");
+} if ($_SESSION["tipo"] == "adm") {
+    header(header: "Location:adm.php?id= ". $_SESSION["id"]);
 }
 
 if (isset($_GET["oi"])) {
     unset($_SESSION["carrinho"]);
-}
+} if (isset($_GET["logout"])) {
+    session_destroy();
+} if ($_SESSION["id"])
     include_once "../class/categoria.class.php";
     include_once "../class/CategoriaDAO.class.php";
     include_once "../class/produto.class.php";
@@ -24,19 +31,25 @@ if (isset($_GET["oi"])) {
     include_once "../class/imagem.class.php";
     include_once "../class/imagemDAO.class.php";
     
+    
     $objCategoriaDAO= new categoriaDAO();
     $categorias = $objCategoriaDAO->listar();
 ?>
+
+    <div class="container"> <!-- Estilização vai ser tipo colocar um hide/show de javascript num menu categoria, ai quando tu clica ele mostra todas as categorias clicaveis, além de colocar o botão de 
+        logout pro canto direito da página -->
 <ul>
     <?php
     foreach($categorias as $linha){
         echo "<li><a href='index.php?idCat=".
         $linha["idcat"]."'>".$linha["nomeCat"]."</a></li>";
-    }
+    }   
     ?>
     
     <li> <a href="carrinho.php"> Carrinho de compras </a></li>
     <li> <a href="vendasnf.php"> Vendas não finalizadas </a></li>
+    <li> <a href="vendasf.php"> vendas finalizadas </a></li>
+    <li> <a href="?logout=logout"> Logout/sair </a></li>
 </ul> <br> <br>
     <form action="index.php?nome=".pesquisa>
     <input type="text" name="pesquisa"> </input>
@@ -56,14 +69,16 @@ foreach($retorno as $linha){
         <h3><?=$linha["nome"]?></h3>
         <h4><?=$linha["preco"]?></h4>
         <h5><?=$linha["nomeCat"]?></h5>
-        <h5><?=$linha["descricao"]?></h5>
+        <h5>Descrição: <?=$linha["descricao"]?></h5>
 
         <?php
         $retornoImg =  $objImagemDAO->retornarUm($linha["id"]);
         if($retornoImg>0)
             echo "<img src='../img/".$retornoImg["nomeImagem"]."'/>";
         ?>
-        <a href="?id=<?=$linha['id'];?>&carrinho"> Adicionar ao Carrinho  </a>
-        <a href="?oi=oi"> aa </a>
+        <a href="?id=<?=$linha['id'];?>&carrinho"> Adicionar ao Carrinho  </a>   &nbsp;
+        <a href="?oi=oi"> Remover do carrinho </a>
     </div>
+    
 <?php } ?>
+</div>

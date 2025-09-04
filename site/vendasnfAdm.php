@@ -39,9 +39,16 @@ foreach ($listavenda as $venda) {
     echo "<br> Preço total: <b>$acum</b>";
     echo "<br> Endereço: <b>".$venda["endereco"]."</b>";
     echo "<br> Metodo Pagamento: <b>".$venda["formapagamento"]."</b>";
-    echo "<hr>";
-}
+ 
+
+    ?> <form action="vendasAtualiza.php" method="POST"> 
+        <input type="id" hidden name="id" value= "<?php echo $idVenda;?>"> </input> <?php 
+    echo "<br> <select name='tipo'> <option value='Processando' selected> Processando </option>";
+    echo " <option value='finalizado'> Finalizado </option>"; 
+    echo "</select> <br> <br> <input type='submit' name='submit'> </input>";
+    ?> </form> <hr> <?php
+} ?>
     
-?>
+
 
     <a href="index.php?oi=alo">Voltar para o menu</a>
