@@ -14,10 +14,15 @@
         
         }
         public function excluir($temp) {
-            $sql = $this->conexao->prepare("delete from usuario where id='$temp'");
+            $sql = $this->conexao->prepare("delete from usuario where id=:id");
+            $sql->bindValue(":id", $temp);
             $sql->execute();
         }
         public function inserir(usuario $obj) {
+            $sql = $this->conexao->prepare("select * from usuario where email = :email");
+            $sql->bindValue(":email", $obj->get("email"));
+            $sql->execute();
+            if ($sql->rowCount()==0) {
             $sql = $this->conexao->prepare("INSERT into usuario(nome, cpf, email, senha, numero) values (:nome, :cpf, :email, :senha, :num)");
             $sql->bindValue(":nome", $obj->get("nome"));
             $sql->bindValue(":cpf", $obj->get("cpf"));
@@ -25,9 +30,13 @@
             $sql->bindValue(":senha", $obj->get("senha"));
             $sql->bindValue(":num", $obj->get("numero"));
             return  $sql->execute();
+            } else if ($sql->rowCount()>0) {
+                return 2;
+            }
     }
         public function retornarUM($id) {
-            $sql = $this->conexao->prepare(query: "select * from usuario where id='$id'");
+            $sql = $this->conexao->prepare(query: "select * from usuario where id=:id");
+            $sql->bindValue(":id", $id);
             $sql->execute();
             return $sql->fetch();
         }

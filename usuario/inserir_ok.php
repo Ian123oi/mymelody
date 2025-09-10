@@ -12,9 +12,14 @@
     $objDAO = new usuarioDAO();
     $retorno = $objDAO->inserir($obj);
     if ($retorno) {
+        if ($retorno !== 2) {
 
-        echo "adicionado no banco eba";
         header("location: listar.php");
+        unset($_GET["msg"]);
+         } 
+        else if ($retorno == 2) {
+            header("Location: inserir.php?msg=Email ja cadastrado");
+        }
     } else {
         echo "deu erro";
     }

@@ -15,7 +15,8 @@ include_once "imagem.class.php";
         
         }
         public function excluir($temp) {
-            $sql = $this->conexao->prepare("delete from imagem where id='$temp'");
+            $sql = $this->conexao->prepare("delete from imagem where id=:id");
+            $sql->bindValue(":id", $temp);
             $sql->execute();
         }
         public function inserir(imagem $obj) {
