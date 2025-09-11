@@ -11,7 +11,7 @@
     $objVPDAO = new venda_has_produtoDAO();
     $objVP = new venda_has_produto();
     $objDAO = new vendaDAO();
-   $listavenda = $objDAO->listar("WHERE status like '%Processando%'");
+   $listavenda = $objDAO->listar("WHERE status like '%finalizado%'");
 
 $acum = 0;
 
@@ -44,8 +44,8 @@ foreach ($listavenda as $venda) {
 
     ?> <form action="vendasAtualiza.php" method="POST"> 
         <input type="id" hidden name="id" value= "<?php echo $idVenda;?>"> </input> <?php 
-    echo "<br> <select name='tipo'> <option value='Processando' selected> Processando </option>";
-    echo " <option value='finalizado'> Finalizado </option>"; 
+    echo "<br> <select name='tipo'> <option value='Processando'> Processando </option>";
+    echo " <option value='finalizado' selected> Finalizado </option>"; 
     echo "</select> <br> <br> <input type='submit' name='submit'> </input>";
     ?> </form> <hr> <?php
 } ?>

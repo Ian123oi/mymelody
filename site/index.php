@@ -1,3 +1,10 @@
+<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="../bootstrap/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+
+
+
+
 <?php
 session_start();
 if(isset($_GET["carrinho"])) {
@@ -16,7 +23,7 @@ if(isset($_GET["carrinho"])) {
 } if(!isset($_SESSION["login"])) {
     header("location:login.php");
 } if ($_SESSION["tipo"] == "adm") {
-    header(header: "Location:adm.php?id= ". $_SESSION["id"]);
+    ?> <h1> <a href="adm.php"> PAGINA DO ADMNINASTRO </a> </h1> <?php
 }
 
 if (isset($_GET["oi"])) {
@@ -32,24 +39,57 @@ if (isset($_GET["oi"])) {
     include_once "../class/imagemDAO.class.php";
     
     
+    
     $objCategoriaDAO= new categoriaDAO();
     $categorias = $objCategoriaDAO->listar();
 ?>
 
     <div class="container"> <!-- Estilização vai ser tipo colocar um hide/show de javascript num menu categoria, ai quando tu clica ele mostra todas as categorias clicaveis, além de colocar o botão de 
         logout pro canto direito da página -->
-<ul>
+
+    <div class="row border border-rounded">
     <?php
-    foreach($categorias as $linha){
+   /* foreach($categorias as $linha){
+        ?> <div class="col-sm"> <?php
         echo "<li><a href='index.php?idCat=".
-        $linha["idcat"]."'>".$linha["nomeCat"]."</a></li>";
-    }   
-    ?>
+        $linha["idcat"]."'>".$linha["nomeCat"]."</a></li>";?> </div> <?php
+    }  */
+
+      ?>
+        <div class="col-sm border border-dark">
+      <button id="butone"> Categorias </button>
+        </div>
+
+     <div class="col-sm border border-dark">   <a href="carrinho.php"> Carrinho de compras </a> </div>
+     <div class="col-sm border border-dark">   <a href="vendasnf.php"> Vendas não finalizadas </a></div>
+     <div class="col-sm border border-dark">   <a href="vendasf.php"> vendas finalizadas </a> </div>
+     <div class="col-sm border border-dark">   <a href="?logout=logout"> Logout/sair </a> </div>
+        </div>
+        <div class="row">
+            <div class="col-sm">
+      <?php
+        foreach($categorias as $linha){
+        ?> <div id=$linha  class="row"> <?php
+        echo "<a href='index.php?idCat=".
+        $linha["idcat"]."'>".$linha["nomeCat"]."</a>";?> </div> <?php
+    }  
+
+      ?>      
+</div>
+      <script>
+        $().ready(function() {
+        $("#butone").click(function() {
+            <?php foreach($categorias as $linha) {?>
+            $($linha).toggle(); <?php } ?>
+           
+        });
+    });
+      </script>
+
+      
+    </div>
     
-    <li> <a href="carrinho.php"> Carrinho de compras </a></li>
-    <li> <a href="vendasnf.php"> Vendas não finalizadas </a></li>
-    <li> <a href="vendasf.php"> vendas finalizadas </a></li>
-    <li> <a href="?logout=logout"> Logout/sair </a></li>
+    
 </ul> <br> <br>
     <form action="index.php?nome=".pesquisa>
     <input type="text" name="pesquisa"> </input>
@@ -61,11 +101,13 @@ $retorno = $objDAO->listar(" where produto.idCat= ".$_GET["idCat"]. " ORDER BY i
 else if (isset($_GET["pesquisa"])) {
     $retorno = $objDAO->listar("where produto.nome LIKE '%".$_GET["pesquisa"]. "%' or produto.descricao like '%".$_GET["pesquisa"]. "%' ORDER BY id DESC LIMIT 3 ");}
 
-else { $retorno = $objDAO->listar("ORDER BY id DESC LIMIT 3");}
+else { $retorno = $objDAO->listar("ORDER BY date DESC LIMIT 3");}
 $objImagemDAO = new imagemDAO();
 foreach($retorno as $linha){
     ?>
+    
     <div>
+        <h1> LANÇAMENTOS!!!!! </h1>
         <h3><?=$linha["nome"]?></h3>
         <h4><?=$linha["preco"]?></h4>
         <h5><?=$linha["nomeCat"]?></h5>
@@ -82,3 +124,4 @@ foreach($retorno as $linha){
     
 <?php } ?>
 </div>
+

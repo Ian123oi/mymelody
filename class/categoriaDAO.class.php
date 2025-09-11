@@ -29,12 +29,14 @@
         }
 
         public function excluir($temp) {
-            $sql = $this->conexao->prepare("delete from categoria where idcat='$temp'");
+            $sql = $this->conexao->prepare("delete from categoria where idcat=:id");
+            $sql->bindValue(":id", $temp);
             $sql->execute();
         }
 
         public function retornarUM($id) {
-            $sql = $this->conexao->prepare(query: "select * from categoria where idcat='$id'");
+            $sql = $this->conexao->prepare(query: "select * from categoria where idcat=:id");
+            $sql->bindValue(":id", $id);
             $sql->execute();
             return $sql->fetch();
         }

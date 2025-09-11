@@ -26,6 +26,16 @@
         
     </form>
 
+    <?php
+      
+         if (isset($_GET["msg"])) {
+            echo "<br> <h1><b>". $_GET["msg"]. "</b> </h1>"; 
+            
+         }
+
+
+    ?>
+
    <script> function mascara(i){
    
    var v = i.value;

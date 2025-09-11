@@ -7,14 +7,15 @@
         public function __construct() {
             $this->conexao = new PDO("mysql:host=localhost; dbname=mymelody", "root", "");
         }
-        public function listar() {
-             $sql = $this->conexao->prepare("select * from venda");
+        public function listar($temp) {
+             $sql = $this->conexao->prepare("select * from venda ". $temp);
              $sql->execute();
               return $sql->fetchAll(PDO::FETCH_ASSOC);
         
         }
         public function excluir($temp) {
-            $sql = $this->conexao->prepare("delete from usuario where id='$temp'");
+            $sql = $this->conexao->prepare("delete from usuario where id=:id");
+            $sql->bindValue(":id", $temp); 
             $sql->execute();
         }
         public function inserir(venda $obj) {
@@ -30,12 +31,15 @@
             return $this->conexao->lastInsertId();
     }
         public function retornarUM($id) {
-            $sql = $this->conexao->prepare(query: "select * from venda where id='$id'");
+            $sql = $this->conexao->prepare(query: "select * from venda where id=:id");
+            $sql->bindValue(":id", $id); 
             $sql->execute();
             return $sql->fetch();
         }
         public function editar($obj, $id) { 
-            $sql = $this->conexao->prepare(query: "update venda set status = '$obj' where idvenda='$id'"  );
+            $sql = $this->conexao->prepare(query: "update venda set status = :obj where idvenda=:id"  );
+            $sql->bindValue(":obj", $obj);
+            $sql->bindValue(":id", $id);  
             return $sql->execute();
         
 
