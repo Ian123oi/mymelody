@@ -44,40 +44,51 @@ if (isset($_GET["oi"])) {
     $categorias = $objCategoriaDAO->listar();
 ?>
 
-    <div class="container"> <!-- Estilização vai ser tipo colocar um hide/show de javascript num menu categoria, ai quando tu clica ele mostra todas as categorias clicaveis, além de colocar o botão de 
-        logout pro canto direito da página -->
+    <div class="container-fluid">
 
-    <div class="row border border-rounded">
+    <div class="row border border-rounded border-dark">
     <?php
-   /* foreach($categorias as $linha){
-        ?> <div class="col-sm"> <?php
-        echo "<li><a href='index.php?idCat=".
-        $linha["idcat"]."'>".$linha["nomeCat"]."</a></li>";?> </div> <?php
-    }  */
-
       ?>
-        <div class="col-sm border border-dark">
-      <button id="butone"> Categorias </button>
+      
+        <div class="col-sm">
+      <button class="btn btn-warning btn-lg" style="width:100%" id="butone" > Categorias </button>
         </div>
 
-     <div class="col-sm border border-dark">   <a href="carrinho.php"> Carrinho de compras </a> </div>
-     <div class="col-sm border border-dark">   <a href="vendasnf.php"> Vendas não finalizadas </a></div>
-     <div class="col-sm border border-dark">   <a href="vendasf.php"> vendas finalizadas </a> </div>
-     <div class="col-sm border border-dark">   <a href="?logout=logout"> Logout/sair </a> </div>
+        <div class="col-sm ">    <button class="btn btn-warning btn-lg" style="width:100%" id="carrinho"> Carrinho </button> </div>
+        <div class="col-sm ">    <button class="btn btn-warning btn-lg" style="width:100%" id="vendasnf"> Vendas Pendentes </button> </div>
+        <div class="col-sm ">    <button class="btn btn-warning btn-lg" style="width:100%" id="vendaf"> Vendas Concluída </button> </div>
+        <div class="col-sm ">    <button class="btn btn-warning btn-lg" style="width:100%" id="sair"> Logout/sair </button> </div>
         </div>
         <div class="row">
             <div class="col-sm">
       <?php
         foreach($categorias as $linha){
-        ?> <div id=$linha  class="row"> <?php
+        ?> <div id=$linha  class="row">
+            <div class="col-md-1"> <?php
         echo "<a href='index.php?idCat=".
-        $linha["idcat"]."'>".$linha["nomeCat"]."</a>";?> </div> <?php
+        $linha["idcat"]."'>".$linha["nomeCat"]."</a>";?> </div> </div> <?php
     }  
 
       ?>      
 </div>
       <script>
+
+        
+
         $().ready(function() {
+        
+            $("#carrinho").click(function() {
+                window.location.href = 'carrinho.php';
+            });
+            $("#vendasnf").click(function() {
+                window.location.href = 'vendasnf.php';
+            });
+            $("#vendaf").click(function() {
+                window.location.href='vendasf.php';
+            });
+            $("#sair").click(function() {
+                window.location.href='?logout=logout.php';
+            });
         $("#butone").click(function() {
             <?php foreach($categorias as $linha) {?>
             $($linha).toggle(); <?php } ?>
