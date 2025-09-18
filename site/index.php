@@ -14,21 +14,28 @@ if(isset($_GET["carrinho"])) {
 
  if (!in_array($_GET["id"], $_SESSION["carrinho"])) {
     array_push($_SESSION["carrinho"], $_GET["id"]);
-    echo "<h2> adicionado ao carrinho </h2>"; 
-    print_r($_SESSION["carrinho"]);
+    ?> <script> alert ("Adicionado ao carrinho!"); </script> <?php
  }
  else {
-    echo "O produto ja ta no carrinho";
+    ?> <script> alert ("Produto já esta no carrinho!"); </script> <?php
 }
 } if(!isset($_SESSION["login"])) {
     header("location:login.php");
-} if ($_SESSION["tipo"] == "adm") {
-    ?> <h1> <a href="adm.php"> PAGINA DO ADMNINASTRO </a> </h1> <?php
-}
+} 
 
-if (isset($_GET["oi"])) {
-    unset($_SESSION["carrinho"]);
-} if (isset($_GET["logout"])) {
+
+if (isset($_GET["remover"])) {
+    $idremove = $_GET["remover"];
+
+    if (($key = array_search($idremove, $_SESSION["carrinho"])) !== false) {
+        // Produto encontrado no carrinho, removendo-o
+        unset($_SESSION["carrinho"][$key]);
+        // Reindexando o array para corrigir os índices
+        $_SESSION["carrinho"] = array_values($_SESSION["carrinho"]);
+        
+    }
+}
+if (isset($_GET["logout"])) {
     session_destroy();
 } if ($_SESSION["id"])
     include_once "../class/categoria.class.php";
@@ -44,9 +51,20 @@ if (isset($_GET["oi"])) {
     $categorias = $objCategoriaDAO->listar();
 ?>
 
-    <div class="container-fluid">
+    <div class="container-fluid position-fixed">
+  
+    
+    <div class="row" style="background-color: #654321">
 
-    <div class="row border border-rounded border-dark">
+    <form class="form-inline" action="index.php?nome=".pesquisa>
+    
+    <div class="col-md-6 mx-auto" >
+    <input type="text" name="pesquisa" class="form-control" placeholder="pesquisar algum produto"> </input> 
+    </div></form>
+
+    </div>
+
+    <div class="row" style="background-color: #654321">
     <?php
       ?>
       
@@ -59,23 +77,28 @@ if (isset($_GET["oi"])) {
         <div class="col-sm ">    <button class="btn btn-warning btn-lg" style="width:100%" id="vendaf"> Vendas Concluída </button> </div>
         <div class="col-sm ">    <button class="btn btn-warning btn-lg" style="width:100%" id="sair"> Logout/sair </button> </div>
         </div>
+        <div class="row" style="background-color: #654321; height: 20px"></div>
         <div class="row">
             <div class="col-sm">
       <?php
         foreach($categorias as $linha){
         ?> <div id=$linha  class="row">
-            <div class="col-md-1"> <?php
+            <div class="col-md-1" style="background-color: #C4A484"> <?php
         echo "<a href='index.php?idCat=".
         $linha["idcat"]."'>".$linha["nomeCat"]."</a>";?> </div> </div> <?php
     }  
 
-      ?>      
+      ?>
+      </div>      
 </div>
       <script>
 
         
 
         $().ready(function() {
+
+            <?php foreach($categorias as $linha) {?>
+                $($linha).hide(); <?php } ?>
         
             $("#carrinho").click(function() {
                 window.location.href = 'carrinho.php';
@@ -101,11 +124,12 @@ if (isset($_GET["oi"])) {
     </div>
     
     
-</ul> <br> <br>
-    <form action="index.php?nome=".pesquisa>
-    <input type="text" name="pesquisa"> </input>
-    <input type="submit" name="enviar"> </input></form>
+</ul> <br> <br> <br> <br> <br>
+    
 <?php
+if ($_SESSION["tipo"] == "adm") {
+    ?> <h1> <a href="adm.php"> PAGINA DO ADMNINASTRO </a> </h1> <?php
+}
 $objDAO = new produtoDAO(); 
 if (isset($_GET["idCat"])) {
 $retorno = $objDAO->listar(" where produto.idCat= ".$_GET["idCat"]. " ORDER BY id DESC LIMIT 3"  ); }
@@ -114,11 +138,22 @@ else if (isset($_GET["pesquisa"])) {
 
 else { $retorno = $objDAO->listar("ORDER BY date DESC LIMIT 3");}
 $objImagemDAO = new imagemDAO();
+echo "<h1> LANÇAMENTOS!!!!! </h1>";
+$cont = 0;
+echo "<div class='container-fluid'>";
+echo "<div class='row'>";
 foreach($retorno as $linha){
+
+    if($cont==3) {
+        echo "</div> <div class='row'>";
+        $cont = 0;
+    }
+
     ?>
     
-    <div>
-        <h1> LANÇAMENTOS!!!!! </h1>
+    
+    <div class="col-sm">
+
         <h3><?=$linha["nome"]?></h3>
         <h4><?=$linha["preco"]?></h4>
         <h5><?=$linha["nomeCat"]?></h5>
@@ -127,12 +162,13 @@ foreach($retorno as $linha){
         <?php
         $retornoImg =  $objImagemDAO->retornarUm($linha["id"]);
         if($retornoImg>0)
-            echo "<img src='../img/".$retornoImg["nomeImagem"]."'/>";
+            echo "<img style='height:250px; width: 250px' src='../img/".$retornoImg["nomeImagem"]."'/>";
         ?>
         <a href="?id=<?=$linha['id'];?>&carrinho"> Adicionar ao Carrinho  </a>   &nbsp;
-        <a href="?oi=oi"> Remover do carrinho </a>
-    </div>
+        <a href="?remover=<?=$linha['id'];?>"> Remover do carrinho </a>
+        </div>
     
-<?php } ?>
+    
+<?php $cont++;} ?>
 </div>
 

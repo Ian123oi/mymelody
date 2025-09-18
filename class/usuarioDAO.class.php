@@ -27,7 +27,8 @@
             $sql->bindValue(":nome", $obj->get("nome"));
             $sql->bindValue(":cpf", $obj->get("cpf"));
             $sql->bindValue(":email", $obj->get("email"));
-            $sql->bindValue(":senha", $obj->get("senha"));
+            $salt = "_".$obj->get("email");
+            $sql->bindValue(":senha", hash("gost", $obj->get("senha").$salt));
             $sql->bindValue(":num", $obj->get("numero"));
             return  $sql->execute();
             } else if ($sql->rowCount()>0) {
@@ -57,10 +58,11 @@
         public function login(usuario $usuario) {
             $sql = $this->conexao->prepare ("select * from usuario where email = :email");
             $sql->bindValue(":email", $usuario->get("email"));
+            $salt = "_".$usuario->get("email");
             $sql->execute();
             if($sql->rowCount()>0) {
                 while($retorno = $sql->fetch()) {
-                    if($retorno["senha"] == $usuario->getSenha()) {
+                    if($retorno["senha"] == hash("gost", $usuario->getSenha().$salt)) {
                         return $retorno;
                     }
                 }
