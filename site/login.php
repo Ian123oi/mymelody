@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script src="../bootstrap/js/bootstrap.min.js"></script>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -13,8 +16,17 @@
         <br>
         <label> Senha: </label>
         <input type="password" name="senha">
-        <input type="submit">
+
+        <div class="g-recaptcha" data-sitekey="6LdZsesrAAAAAKE54H3gGtGe23NKL0dGMiJ5ZeVu">  </div>
+                   <input type="submit">
+
     </form>
+
+    <?php
+    if (isset($_GET["msg"])) {
+        echo ("<h1> RESPONDA O CAPTCHA!! </h1");
+    }
+    ?>
 
 </body>
 </html>

@@ -24,12 +24,12 @@
             $sql->execute();
             if ($sql->rowCount()==0) {
             $sql = $this->conexao->prepare("INSERT into usuario(nome, cpf, email, senha, numero) values (:nome, :cpf, :email, :senha, :num)");
-            $sql->bindValue(":nome", $obj->get("nome"));
-            $sql->bindValue(":cpf", $obj->get("cpf"));
+            $sql->bindValue(":nome", htmlspecialchars($obj->get("nome")));
+            $sql->bindValue(":cpf", htmlspecialchars($obj->get("cpf")));
             $sql->bindValue(":email", $obj->get("email"));
             $salt = "_".$obj->get("email");
             $sql->bindValue(":senha", hash("gost", $obj->get("senha").$salt));
-            $sql->bindValue(":num", $obj->get("numero"));
+            $sql->bindValue(":num", htmlspecialchars($obj->get("numero")));
             return  $sql->execute();
             } else if ($sql->rowCount()>0) {
                 return 2;
@@ -43,12 +43,12 @@
         }
         public function editar(usuario $usuario) {
             $sql = $this->conexao->prepare(query: "update usuario set nome = :nome, email = :email, cpf = :cpf, senha = :senha, numero = :numero where id = :id");
-            $sql->bindValue(":id", $usuario->get("id"));
-            $sql->bindValue(":email", $usuario->get("email"));
-            $sql->bindValue(":cpf", $usuario->get("cpf"));
-            $sql->bindValue("senha", $usuario->get("senha"));
-            $sql->bindValue("nome", $usuario->get("nome"));
-            $sql->bindValue("numero", $usuario->get("numero"));
+            $sql->bindValue(":id", htmlspecialchars($usuario->get("id")));
+            $sql->bindValue(":email", htmlspecialchars($usuario->get("email")));
+            $sql->bindValue(":cpf", htmlspecialchars($usuario->get("cpf")));
+            $sql->bindValue(":senha", htmlspecialchars($usuario->get("senha")));
+            $sql->bindValue("nome", htmlspecialchars($usuario->get("nome")));
+            $sql->bindValue("numero", htmlspecialchars($usuario->get("numero")));
 
             return $sql->execute();
             

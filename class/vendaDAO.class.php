@@ -20,13 +20,13 @@
         }
         public function inserir(venda $obj) {
             $sql = $this->conexao->prepare("INSERT into venda(idProduto, IdUsuario, data, formapagamento, endereco, valor, status) values (:nome, :cpf, :email, :senha, :num, :valor, :status)");
-            $sql->bindValue(":nome", $obj->get("idProduto"));
-            $sql->bindValue(":cpf", $obj->get("idUsuario"));
-            $sql->bindValue(":email", $obj->get("data"));
-            $sql->bindValue(":senha", $obj->get("formapagamento"));
-            $sql->bindValue(":num", $obj->get("endereco"));
-            $sql->bindValue(":valor", $obj->get("valor"));
-            $sql->bindValue(":status", $obj->get("status"));
+            $sql->bindValue(":nome", htmlspecialchars($obj->get("idProduto")));
+            $sql->bindValue(":cpf", htmlspecialchars($obj->get("idUsuario")));
+            $sql->bindValue(":email", htmlspecialchars($obj->get("data")));
+            $sql->bindValue(":senha", htmlspecialchars($obj->get("formapagamento")));
+            $sql->bindValue(":num", htmlspecialchars($obj->get("endereco")));
+            $sql->bindValue(":valor", htmlspecialchars($obj->get("valor")));
+            $sql->bindValue(":status", htmlspecialchars($obj->get("status")));
             $sql->execute();
             return $this->conexao->lastInsertId();
     }
@@ -38,8 +38,8 @@
         }
         public function editar($obj, $id) { 
             $sql = $this->conexao->prepare(query: "update venda set status = :obj where idvenda=:id"  );
-            $sql->bindValue(":obj", $obj);
-            $sql->bindValue(":id", $id);  
+            $sql->bindValue(":obj", htmlspecialchars($obj));
+            $sql->bindValue(":id", htmlspecialchars($id));  
             return $sql->execute();
         
 

@@ -22,7 +22,7 @@
                 (:nome)"
             );
             
-            $sql->bindValue(":nome", $obj->get("nomeCat"));
+            $sql->bindValue(":nome", htmlspecialchars($obj->get("nomeCat")));
             
             $sql->execute();
             return $this->conexao->lastInsertId();
@@ -43,7 +43,7 @@
       
         public function editar(categoria $obj) {
             $sql = $this->conexao->prepare(query: "update categoria set nomeCat = :nome where idcat = :id");
-            $sql->bindValue(":id", $obj->get("idCat"));
+            $sql->bindValue(":id", htmlspecialchars($obj->get("idCat")));
             $sql->bindValue(":nome", $obj->get("nomeCat"));
           
             return $sql->execute();

@@ -136,7 +136,7 @@ $retorno = $objDAO->listar(" where produto.idCat= ".$_GET["idCat"]. " ORDER BY i
 else if (isset($_GET["pesquisa"])) {
     $retorno = $objDAO->listar("where produto.nome LIKE '%".$_GET["pesquisa"]. "%' or produto.descricao like '%".$_GET["pesquisa"]. "%' ORDER BY id DESC LIMIT 3 ");}
 
-else { $retorno = $objDAO->listar("ORDER BY date DESC LIMIT 3");}
+else { $retorno = $objDAO->listar("ORDER BY data DESC LIMIT 3");}
 $objImagemDAO = new imagemDAO();
 echo "<h1> LANÇAMENTOS!!!!! </h1>";
 $cont = 0;
@@ -171,4 +171,3 @@ foreach($retorno as $linha){
     
 <?php $cont++;} ?>
 </div>
-

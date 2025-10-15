@@ -25,10 +25,10 @@
       <form action="editar_ok.php" method="POST">
     <input type="hidden" name="id" value="<?=$retornoProd["id"]?>">
         <label> Nome: </label>
-        <input type="text" name="nome" value="<?=$retornoProd["nome"]?>"> <br>
+        <input type="text" name="nome" value="<?=$retornoProd["nome"]?>" required> <br>
         <br>
         <label> preco: </label>
-        <input type="number" name="preco" value="<?=$retornoProd["preco"]?>"> <br>
+        <input type="number" name="preco" value="<?=$retornoProd["preco"]?>" required> <br>
         <br>
         <label> descricao: </label>
         <input type="text" name="descricao" value="<?=$retornoProd["descricao"]?>"> <br>

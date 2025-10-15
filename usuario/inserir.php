@@ -10,17 +10,17 @@
     
     <form action="inserir_ok.php" method="post" enctype="multipart/form-data">
         <label> Nome: </label>
-        <input type="text" name="nome" placeholder/>
+        <input type="text" name="nome" placeholder required/>
         <br>
         <label> Email: </label>
-        <input type="email" name="email">
+        <input type="email" name="email" required>
         <br>
         <label> CPF: </label>
-        <input oninput="mascara(this)" type="text" name="cpf"> <br> 
+        <input oninput="mascara(this)" type="text" name="cpf" required> <br> 
         <label> Numero: </label>
-        <input oninput="mascaranum(this)" type="text" name="numero"id="numero"> <br> 
+        <input oninput="mascaranum(this)" type="text" name="numero"id="numero" required> <br> 
         <label> Senha </label>
-        <input type="password" name="senha">
+        <input type="password" name="senha" required>
          <br>
         <input type="submit" name="enviar">
         

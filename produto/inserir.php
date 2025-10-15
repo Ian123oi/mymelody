@@ -19,16 +19,16 @@
     
     <form action="inserir_ok.php" method="post" enctype="multipart/form-data">
         <label> Nome: </label>
-        <input type="text" name="nome"/>
+        <input type="text" name="nome" required/>
         <br>
         <label> preco: </label>
-        <input type="number" name="preco">
+        <input type="number" name="preco" required>
         <br>
         <label> descricao: </label>
         <input type="text" name="descricao"> <br> 
         <br>
          <label> Imagem: </label> <br>
-         <input type="file" name="imagem[]" multiple/> <br>
+         <input type="file" name="imagem[]" accept="image/pgn, image/jpeg"/> <br>
          <br>
          <label> Id categoria </label> <br>
          <select name="selecionador">

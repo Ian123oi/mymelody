@@ -19,10 +19,10 @@
         }
         public function inserir(venda_has_produto $obj) {
             $sql = $this->conexao->prepare("INSERT into venda_has_produto(idVenda, idProduto, preco, quantidade) values (:idVenda, :Produto, :preco, :quantidade)");
-            $sql->bindValue(":idVenda", $obj->get("idVenda"));
-            $sql->bindValue(":Produto", $obj->get("idProduto"));
-            $sql->bindValue(":preco", $obj->get("preco"));
-            $sql->bindValue(":quantidade", $obj->get("quantidade"));
+            $sql->bindValue(":idVenda", htmlspecialchars($obj->get("idVenda")));
+            $sql->bindValue(":Produto", htmlspecialchars($obj->get("idProduto")));
+            $sql->bindValue(":preco", htmlspecialchars($obj->get("preco")));
+            $sql->bindValue(":quantidade", htmlspecialchars($obj->get("quantidade")));
             $sql->execute();
             return $this->conexao->lastInsertId();
     }
@@ -33,19 +33,19 @@
         }
         public function editar(venda_has_produto $obj) {
             $sql = $this->conexao->prepare(query: "update produto set nome = :nome, preco = :preco, descricao = :descricao, IdCat = :idcat where id = :id");
-            $sql->bindValue(":id", $obj->get("id"));
-            $sql->bindValue(":nome", $obj->get("nome"));
+            $sql->bindValue(":id", htmlspecialchars($obj->get("id")));
+            $sql->bindValue(":nome", htmlspecialchars($obj->get("nome")));
 
-            $sql->bindValue(":preco", $obj->get("preco"));
-            $sql->bindValue(":descricao", $obj->get("descricao"));
-            $sql->bindValue(":idcat", $obj->get("IdCat"));
+            $sql->bindValue(":preco", htmlspecialchars($obj->get("preco")));
+            $sql->bindValue(":descricao", htmlspecialchars($obj->get("descricao")));
+            $sql->bindValue(":idcat", htmlspecialchars($obj->get("IdCat")));
 
             return $sql->execute();
             
         } public function oferta (venda_has_produto $obj) {
             $sql = $this->conexao->prepare(query: "update produto set oferta = :oferta where id=:id");
-            $sql->bindValue(":id", $obj->get("id"));
-            $sql->bindValue(":oferta", $obj->get("oferta"));
+            $sql->bindValue(":id", htmlspecialchars($obj->get("id")));
+            $sql->bindValue(":oferta", htmlspecialchars($obj->get("oferta")));
             return $sql->execute();
 
         }

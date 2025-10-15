@@ -23,15 +23,15 @@
     <form action="editar_ok.php" method="POST">
         <input type="hidden" name="id" value="<?=$retorno["id"]?>">
         <label> Nome </label>
-        <input type="text" name="nome" value="<?=$retorno["nome"]?>"> <br>
+        <input type="text" name="nome" value="<?=$retorno["nome"]?>" required> <br>
         <label> cpf </label>
-        <input oninput="mascara(this)" type="text" name="cpf" value="<?=$retorno["cpf"]?>"> <br> 
+        <input oninput="mascara(this)" type="text" name="cpf" value="<?=$retorno["cpf"]?>" required> <br> 
         <label> email </label>
-        <input type="email" name="email" value="<?=$retorno["email"]?>"> <br>
+        <input type="email" name="email" value="<?=$retorno["email"]?>" required> <br>
         <label> senha </label>
-        <input type="password" name="senha" value="<?=$retorno["senha"]?>"> <br>
+        <input type="password" name="senha" value="<?=$retorno["senha"]?>" required> <br>
         <label> numero </label>
-        <input oninput="mascaranum(this)" type="text" name="numero"id="numero" value="<?=$retorno["numero"]?>"> <br> 
+        <input oninput="mascaranum(this)" type="text" name="numero"id="numero" value="<?=$retorno["numero"]?>" required> <br> 
         <input type="submit" name="submit" value="enviar"> <br>
         <br>
     </form>
