@@ -1,26 +1,55 @@
-<?php
-session_start();
-if (!isset($_SESSION["login"])) {
-    header("location:login.php");
-}
-if (isset($_GET["logout"])) {
-    session_destroy();
-}
-?>
+<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="../bootstrap/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<?php include_once "menuadm.php"?>
+    
+</ul> <br> <br> <br> <br> <br>
+    
+      <h1> Olá admininastro <?php echo $_SESSION["nome"] ?></h1>
+      <?php
 
-<body>
+$objDAO = new produtoDAO(); 
+if (isset($_GET["idCat"])) {
+$retorno = $objDAO->listar(" where produto.idCat= ".$_GET["idCat"]. " ORDER BY id DESC LIMIT 3"  ); }
+else if (isset($_GET["pesquisa"])) {
+    $retorno = $objDAO->listar("where produto.nome LIKE '%".$_GET["pesquisa"]. "%' or produto.descricao like '%".$_GET["pesquisa"]. "%' ORDER BY id DESC LIMIT 3 ");}
 
+else { $retorno = $objDAO->listar("ORDER BY data DESC LIMIT 3");}
+$objImagemDAO = new imagemDAO();
+echo "<h1> LANÇAMENTOS!!!!! </h1>";
+$cont = 0;
+echo "<div class='container-fluid'>";
+echo "<div class='row'>";
+foreach($retorno as $linha){
 
-    <h1> Olá admininastro <?php echo $_SESSION["nome"] ?></h1>
+    if($cont==3) {
+        echo "</div> <div class='row'>";
+        $cont = 0;
+    }
 
-    <a href="?logout=logout"> Sair </a>
-    <br>
+    ?>
+    
+    
+    <div class="col-sm">
 
-    <a href="vendasnfAdm.php"> Verificar compras não finalizadas </a>
-    <br> <br>
-    <a href="vendasfAdm.php"> Verificar compras finalizadas </a>
+        <h3><?=$linha["nome"]?></h3>
+        <h4><?=$linha["preco"]?></h4>
+        <h5><?=$linha["nomeCat"]?></h5>
+        <h5>Descrição: <?=$linha["descricao"]?></h5>
 
-    <br> <br>
+        <?php
+        $retornoImg =  $objImagemDAO->retornarUm($linha["id"]);
+        if($retornoImg>0)
+            echo "<img style='height:250px; width: 250px' src='../img/".$retornoImg["nomeImagem"]."'/>";
+        ?>
+        <a href="?id=<?=$linha['id'];?>&carrinho"> Adicionar ao Carrinho  </a>   &nbsp;
+        <a href="?remover=<?=$linha['id'];?>"> Remover do carrinho </a>
+        </div>
+    
+    
+<?php $cont++;} ?>
+</div>
 
     <h1> <a href="index.php"> PÁGINA INICIAL </a></h1>
+    
 </body>

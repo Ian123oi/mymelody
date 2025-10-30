@@ -1,15 +1,12 @@
 <?php
-
-session_start();
-if(!isset($_SESSION["login"]))
-    header("location:login.php");
-
+include_once "menu.php";
     if (!isset($_SESSION["carrinho"])) {
         echo "<h2> Carrinho vazio! Vá as compras! </h2>";
     }
     else {
         
         ?>
+        <div>
             <form action="carrinho_ok.php" method="POST">
             <table border>
                 <thead>
@@ -50,3 +47,4 @@ if(!isset($_SESSION["login"]))
     }
 
 ?>
+</div>

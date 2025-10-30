@@ -20,7 +20,7 @@
         }
         public function inserir(venda $obj) {
             $sql = $this->conexao->prepare("INSERT into venda(idProduto, IdUsuario, data, formapagamento, endereco, valor, status) values (:nome, :cpf, :email, :senha, :num, :valor, :status)");
-            $sql->bindValue(":nome", htmlspecialchars($obj->get("idProduto")));
+            $sql->bindValue(":nome", ($obj->get("idProduto")));
             $sql->bindValue(":cpf", htmlspecialchars($obj->get("idUsuario")));
             $sql->bindValue(":email", htmlspecialchars($obj->get("data")));
             $sql->bindValue(":senha", htmlspecialchars($obj->get("formapagamento")));

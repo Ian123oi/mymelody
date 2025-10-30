@@ -1,11 +1,12 @@
 <?php
-    session_start();
     include_once "../class/venda.class.php";
     include_once "../class/vendaDAO.class.php";
     include_once "../class/venda_has_produto.class.php";
     include_once "../class/venda_has_produtoDAO.class.php";
     include_once "../class/produtoDAO.class.php";
     include_once "../class/produto.class.php";
+    include_once "menu.php";
+
     $objVenda = new Venda();
     $objVenda->set("idUsuario", $_SESSION["id"]);
     $objVPDAO = new venda_has_produtoDAO();
