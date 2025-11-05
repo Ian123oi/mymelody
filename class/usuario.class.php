@@ -7,6 +7,8 @@
         private $email;
         private $senha;
         private $numero;
+        private $pergunta_seguranca;
+        private $resposta_seguranca; 
 
         public function getId () { 
             return $this->id;

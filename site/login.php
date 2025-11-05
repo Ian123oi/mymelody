@@ -21,7 +21,7 @@
                    <input type="submit">
 
     </form>
-
+        <a href="../usuario/recuperar.php"> Esqueceu a senha? </a> <br>
     <?php
     if (isset($_GET["msg"])) {
         echo ("<h1> RESPONDA O CAPTCHA!! </h1");

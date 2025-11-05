@@ -23,13 +23,16 @@
             $sql->bindValue(":email", $obj->get("email"));
             $sql->execute();
             if ($sql->rowCount()==0) {
-            $sql = $this->conexao->prepare("INSERT into usuario(nome, cpf, email, senha, numero) values (:nome, :cpf, :email, :senha, :num)");
+            $sql = $this->conexao->prepare("INSERT into usuario(nome, cpf, email, senha, numero, pergunta_seguranca, resposta_seguranca) values (:nome, :cpf, :email, :senha, :num, :ps, :rs)");
             $sql->bindValue(":nome", htmlspecialchars($obj->get("nome")));
             $sql->bindValue(":cpf", htmlspecialchars($obj->get("cpf")));
             $sql->bindValue(":email", $obj->get("email"));
             $salt = "_".$obj->get("email");
             $sql->bindValue(":senha", hash("gost", $obj->get("senha").$salt));
             $sql->bindValue(":num", htmlspecialchars($obj->get("numero")));
+            $sql->bindValue(":ps", htmlspecialchars($obj->get("pergunta_seguranca")));
+            $sql->bindValue(":rs", $obj->get("resposta_seguranca"));
+           $sql->bindValue(":rs", hash("gost", $obj->get("resposta_seguranca").$salt));
             return  $sql->execute();
             } else if ($sql->rowCount()>0) {
                 return 2;
@@ -70,6 +73,35 @@
             }
             else {
                 return 2;
+            }
+        }
+
+        public function retornarUmPorEmail($email) {
+            $sql = $this->conexao->prepare("select id, pergunta_seguranca, email from usuario where email=:email");
+            $sql->bindValue(":email", $email);
+            $sql->execute();
+            return $sql->fetch();
+        }
+        
+        public function alterarSenha(usuario $obj) {
+            $sql = $this->conexao->prepare("select * from usuario where id=:id");
+            $sql->bindValue(":id", $obj->get("id"));
+            $sql->execute();
+
+            if ($sql->rowCount()>0) {
+                while ($retorno = $sql->fetch()) {
+                    $salt = "_".$obj->get("email");
+                      if ($retorno["resposta_seguranca"] == hash("gost", $obj->get("resposta_seguranca").$salt)) {
+                        $sql = $this->conexao->prepare("update usuario set senha = :senha where id=:id");
+                        $sql->bindValue(":id", $obj->get("id"));
+                        $sql->bindValue(":senha", hash("gost", $obj->get("senha").$salt));
+                        $sql->execute();
+                        return 0; //tudo certo
+                    }
+                }
+                return 1; //resposta errada
+            } else {
+                return 2; //usuario nao cadastrado
             }
         }
 }

@@ -9,6 +9,8 @@
    $obj->set("cpf" , $_POST["cpf"]);
    $obj->set("senha", $_POST["senha"]);
    $obj->set("numero", $_POST["numero"]);
+   $obj->set("pergunta_seguranca", $_POST["pergunta"]);
+   $obj->set("resposta_seguranca", $_POST["resposta"]);
     $objDAO = new usuarioDAO();
     $retorno = $objDAO->inserir($obj);
     if ($retorno) {

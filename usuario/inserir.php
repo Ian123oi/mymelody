@@ -19,6 +19,11 @@
         <input oninput="mascara(this)" type="text" name="cpf" required> <br> 
         <label> Numero: </label>
         <input oninput="mascaranum(this)" type="text" name="numero"id="numero" required> <br> 
+         <br>
+         <label> Pergunta para recuperação de senha: </label>
+         <input type="text" name="pergunta"> <br>
+         <label> Resposta da pergunta: </label>
+         <input type="text" name="resposta"> <br>
         <label> Senha </label>
         <input type="password" name="senha" required>
          <br>
